@@ -5,12 +5,14 @@
 ///         .run()
 ///
 /// See ``SQLPredicateBuilder`` for additional information.
-public final class SQLDeleteBuilder: SQLQueryBuilder, SQLPredicateBuilder, SQLReturningBuilder {
+public final class SQLDeleteBuilder: SQLQueryBuilder, SQLPredicateBuilder, SQLSubqueryClauseBuilder, SQLReturningBuilder {
     /// ``SQLDelete`` query being built.
     public var delete: SQLDelete
 
     /// See ``SQLQueryBuilder/database``.
     public var database: any SQLDatabase
+    
+    public var select: SQLSelect
 
     /// See ``SQLQueryBuilder/query``.
     @inlinable
@@ -37,6 +39,7 @@ public final class SQLDeleteBuilder: SQLQueryBuilder, SQLPredicateBuilder, SQLRe
     public init(_ delete: SQLDelete, on database: any SQLDatabase) {
         self.delete = delete
         self.database = database
+        self.select = .init()
     }
 }
 

@@ -5,6 +5,8 @@ public struct SQLDelete: SQLExpression {
     /// Identifier of table to delete from.
     public var table: any SQLExpression
     
+    public var joins: [any SQLExpression]
+    
     /// If the `WHERE` clause is not present, all records in the table are deleted. If a WHERE clause is supplied,
     /// then only those rows for which the WHERE clause boolean expression is true are deleted. Rows for which
     /// the expression is false or NULL are retained.
@@ -17,6 +19,7 @@ public struct SQLDelete: SQLExpression {
     @inlinable
     public init(table: any SQLExpression) {
         self.table = table
+        self.joins = []
     }
     
     public func serialize(to serializer: inout SQLSerializer) {
@@ -24,6 +27,9 @@ public struct SQLDelete: SQLExpression {
             $0.append("DELETE FROM", self.table)
             if let predicate = self.predicate {
                 $0.append("WHERE", predicate)
+            }
+            if !self.joins.isEmpty {
+                $0.append(" ", SQLList(self.joins, separator: SQLRaw(" ")))
             }
             if let returning = self.returning {
                 $0.append(returning)
