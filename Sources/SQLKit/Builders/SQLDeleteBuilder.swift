@@ -5,7 +5,9 @@
 ///         .run()
 ///
 /// See ``SQLPredicateBuilder`` for additional information.
-public final class SQLDeleteBuilder: SQLQueryBuilder, SQLPredicateBuilder, SQLReturningBuilder {
+public final class SQLDeleteBuilder: SQLQueryBuilder, SQLJoinBuilder, SQLPredicateBuilder, SQLReturningBuilder {
+	public var joins: [SQLExpression]
+	
     /// ``SQLDelete`` query being built.
     public var delete: SQLDelete
 
@@ -37,6 +39,7 @@ public final class SQLDeleteBuilder: SQLQueryBuilder, SQLPredicateBuilder, SQLRe
     public init(_ delete: SQLDelete, on database: any SQLDatabase) {
         self.delete = delete
         self.database = database
+			self.joins = []
     }
 }
 
